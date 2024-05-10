@@ -9,7 +9,7 @@ exports.generatePDF = async (formData, imagePath) => {
       name: formData.name, 
       email: formData.email, 
       dataDeNascimento: formData.dataDeNascimento,
-      imagePath: imagePath // Caminho da imagem
+      imagePath: imagePath
     },
   });
 

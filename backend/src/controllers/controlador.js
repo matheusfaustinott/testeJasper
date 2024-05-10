@@ -1,8 +1,10 @@
+const fs = require('fs');
 const Data = require("../models/modelos");
 
 const dataController = {
   createData: async (req, res) => {
-    const { name, email, dataDeNascimento, image } = req.body;
+    const { name, email, dataDeNascimento} = req.body;
+    const image = req.file.path; 
     try {
       await Data.create(name, email, dataDeNascimento, image);
       res.status(201).json({ message: "Dados salvos com sucesso!" });
