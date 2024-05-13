@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -21,8 +21,18 @@ const TesteJasper = () => {
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           setSubmitting(true);
+          const formData = new FormData();
+          formData.append("name", values.name);
+          formData.append("email", values.email);
+          formData.append("dataDeNascimento", values.dataDeNascimento);
+          formData.append("image", values.image); // Adicione o campo da imagem
+
           axios
-            .post("http://localhost:5000/api/data", values)
+            .post("http://localhost:5000/api/data", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
             .then((response) => {
               console.log("Dados enviados com sucesso:", response.data);
             })
@@ -34,11 +44,10 @@ const TesteJasper = () => {
             });
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form style={{ width: "300px" }}>
             <div style={{ marginBottom: "20px" }}>
-              <Field
-                as={TextField}
+              <TextField
                 id="name"
                 name="name"
                 label="Nome"
@@ -47,8 +56,7 @@ const TesteJasper = () => {
               />
             </div>
             <div style={{ marginBottom: "20px" }}>
-              <Field
-                as={TextField}
+              <TextField
                 id="email"
                 name="email"
                 label="Email"
@@ -58,8 +66,7 @@ const TesteJasper = () => {
               />
             </div>
             <div style={{ marginBottom: "20px" }}>
-              <Field
-                as={TextField}
+              <TextField
                 id="birthdate"
                 name="dataDeNascimento"
                 label="Data de Nascimento"
@@ -72,17 +79,14 @@ const TesteJasper = () => {
               />
             </div>
             <div style={{ marginBottom: "20px" }}>
-              <Field
-                as={TextField}
+              <input
                 id="image"
                 name="image"
-                label="Imagem"
                 type="file"
-                variant="filled"
-                required
-                InputLabelProps={{
-                  shrink: true,
+                onChange={(event) => {
+                  setFieldValue("image", event.currentTarget.files[0]);
                 }}
+                required
               />
             </div>
             <Button type="submit" variant="contained" disabled={isSubmitting}>
