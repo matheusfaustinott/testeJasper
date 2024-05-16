@@ -1,10 +1,16 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import axios from "axios";
-import { initialValues } from "./initialValues";
+
+const initialValues = {
+  name: "",
+  email: "",
+  dataDeNascimento: "",
+  image: null,
+};
 
 const TesteJasper = () => {
   return (
@@ -25,7 +31,8 @@ const TesteJasper = () => {
           formData.append("name", values.name);
           formData.append("email", values.email);
           formData.append("dataDeNascimento", values.dataDeNascimento);
-          formData.append("image", values.image); // Adicione o campo da imagem
+          formData.append("image", values.image);
+          console.log("data:", values.dataDeNascimento);
 
           axios
             .post("http://localhost:5000/api/data", formData, {
@@ -47,35 +54,53 @@ const TesteJasper = () => {
         {({ isSubmitting, setFieldValue }) => (
           <Form style={{ width: "300px" }}>
             <div style={{ marginBottom: "20px" }}>
-              <TextField
-                id="name"
+              <Field
                 name="name"
-                label="Nome"
-                variant="standard"
-                required
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id="name"
+                    label="Nome"
+                    variant="standard"
+                    required
+                    fullWidth
+                  />
+                )}
               />
             </div>
             <div style={{ marginBottom: "20px" }}>
-              <TextField
-                id="email"
+              <Field
                 name="email"
-                label="Email"
-                type="email"
-                variant="standard"
-                required
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id="email"
+                    label="Email"
+                    type="email"
+                    variant="standard"
+                    required
+                    fullWidth
+                  />
+                )}
               />
             </div>
             <div style={{ marginBottom: "20px" }}>
-              <TextField
-                id="birthdate"
+              <Field
                 name="dataDeNascimento"
-                label="Data de Nascimento"
-                type="date"
-                variant="standard"
-                required
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id="birthdate"
+                    label="Data de Nascimento"
+                    type="date"
+                    variant="standard"
+                    required
+                    fullWidth
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                )}
               />
             </div>
             <div style={{ marginBottom: "20px" }}>
@@ -89,7 +114,12 @@ const TesteJasper = () => {
                 required
               />
             </div>
-            <Button type="submit" variant="contained" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isSubmitting}
+              fullWidth
+            >
               {isSubmitting ? "Enviando..." : "Salvar"}
             </Button>
           </Form>

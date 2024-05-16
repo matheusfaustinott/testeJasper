@@ -27,3 +27,8 @@ ROTAS GET E POST
 Consegue salvar a imagem na pasta : backend/src/routes/uploads e acessar por meio de uma api 
 localhost:5000/api/uploads/"nome da imagem" 
 No banco de dados em postgreSQL é salvo o caminho para a pasta dessa imagem
+
+
+# Atualização: 
+
+O cache consegue ser consumido dentro do jasper, o que é uma boa noticia porem agora a ideia é consumir apenas o cache que eu desejo, o que é outro trabalho, minha ideia é passar a queryString ![CDATA[]] dessa forma para receber  imageExpression![CDATA[$P{ImageURL}]]/imageExpression> ou algo do tipo, porem não sei bem como solucionar esse problema.
